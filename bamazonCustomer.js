@@ -13,17 +13,17 @@ var connection = mysql.createConnection({
 
 //Functions
 function displayAll() {
-    //show all ids, names, and products from database.
+    //show all ID's, names, and products from database.
     connection.query('SELECT * FROM Products', function(error, response) {
         if (error) { console.log(error) };
-        //New instance of our constructor
+        //New instance of constructor
         var theDisplayTable = new Table({
-            //declare the value categories
+            // Declare the value categories
             head: ['Item ID', 'Product Name', 'Category', 'Price', 'Quantity'],
-            //set widths to scale
+            // Set widths to scale
             colWidths: [10, 30, 18, 10, 14]
         });
-        //for each row of the loop
+        // For each row of the loop
         for (i = 0; i < response.length; i++) {
             //push data to table
             theDisplayTable.push(
@@ -44,7 +44,7 @@ function inquireForPurchase() {
         {
             name: "ID",
             type: "input",
-            message: "What is the item number of the item you wish to purchase?"
+            message: "What is the item number of the item you'd like to purchase?"
         }, {
             name: 'Quantity',
             type: 'input',
@@ -70,7 +70,7 @@ function purchaseFromDatabase(ID, quantityNeeded) {
             //calculate cost
             var totalCost = response[0].Price * quantityNeeded;
             //inform user
-            console.log("We have what you need! I'll have your order right out!");
+            console.log("You're in luck! We still have that in stock!");
             console.log("Your total cost for " + quantityNeeded + " " + response[0].ProductName + " is " + totalCost + ". Thank you for your Business!");
             //update database, minus purchased quantity
             connection.query('UPDATE Products SET StockQuantity = StockQuantity - ' + quantityNeeded + ' WHERE ItemID = ' + ID);
